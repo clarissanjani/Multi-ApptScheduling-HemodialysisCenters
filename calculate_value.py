@@ -4,7 +4,7 @@ def calculate_objective_function(patient_id, confirmed_schedule, weight, leftove
     # print("Weight is ", weight, " and the penalty is ", count_penalty(leftover), "the prescribed dialysis hours is ", prescribed_total_dialysis_hours)
     # print("The number of confirmed time slots is ", len(confirmed_schedule), " and the total confirmed hours is ", count_total_confirmed_hours(confirmed_schedule))
     first_term_result = get_first_term(weight, leftover, num_required_dialysis_sessions, num_patients, max_allowed_deviation)
-    second_term_result = get_second_term(weight, prescribed_total_dialysis_hours, confirmed_schedule, prescribed_total_dialysis_hours)
+    second_term_result, confirmed_total_dialysis_hours = get_second_term(weight, prescribed_total_dialysis_hours, confirmed_schedule, prescribed_total_dialysis_hours)
     
     num_confirmed_timeslots = len(confirmed_schedule)
     obj_function_inc = first_term_result + second_term_result
@@ -24,20 +24,21 @@ def calculate_objective_function(patient_id, confirmed_schedule, weight, leftove
         
     # print("this is from  calculate_obj_function", obj_function_inc, num_confirmed_timeslots, count_one, count_two, count_three, count_zero)
         
-    return obj_function_inc, num_confirmed_timeslots, count_one, count_two, count_three, count_zero
+    return obj_function_inc, num_confirmed_timeslots, count_one, count_two, count_three, count_zero, confirmed_total_dialysis_hours
 
 def get_first_term(weight, leftover, num_required_dialysis_sessions, num_patients, max_allowed_deviation):
     return weight * count_penalty(leftover, num_required_dialysis_sessions, num_patients, max_allowed_deviation)
 
 def get_second_term(weight, prescribed_total_diaylsis_hours, confirmed_schedule, prescribed_total_dialysis_hours):
     hour_diff = prescribed_total_dialysis_hours - count_total_confirmed_hours(confirmed_schedule)
+    confirmed_total_dialysis_hours = count_total_confirmed_hours(confirmed_schedule)
     
     if hour_diff < 0: 
         multiplier = 0
     else:
         multiplier = hour_diff
     
-    return weight * multiplier
+    return weight * multiplier, confirmed_total_dialysis_hours
 
 
 
