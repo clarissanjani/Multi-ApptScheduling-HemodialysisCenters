@@ -5,11 +5,14 @@ Chronic kidney disease (CKD) is a long-term (chronic) condition that affects the
 ## Project Details
 **Description**: As part of seminar course at Technical University of Munich, I have created a final report that in this PDF, with the code accompanied. Further technical details of the project can be seen below. 
 
+----
+
 ## Environment
 The project was developed with Python 3.9. I used Pycharm as the IDE as well as used JupyterLab to run the notebooks. It is possible to run the notebooks also on Jupyter Notebook.
 
 ## Project Structure
 Each task has its own separate folder structure with the relevant JupyterLab / Jupyter Notebook and python scripts. All the scripts are being called in the Jupyter notebook. 
+
  ------------
      ├── README.md                        
      ├── Anjani_SimulatedAnnealingCode.ipynb
@@ -40,7 +43,18 @@ jupyter-lab
 ### Running the Simulated Annealing Approach
 
 ### Running the Visualizations
-------------
+
+----
+
+## Known issues
+
+Document any known significant shortcomings with the software.
+
+## Getting help
+
+Instruct users how to get help with this software; this might include links to an issue tracker, wiki, mailing list, etc.
+
+----
 
 ## Credits and References
 Reihaneh, M., Ansari, S., & Farhadi, F. (2023). Patient appointment scheduling at hemodialysis centers: An exact branch and price approach. In European Journal of Operational Research (Vol. 309, Issue 1, pp. 35–52). Elsevier BV. https://doi.org/10.1016/j.ejor.2023.01.024
