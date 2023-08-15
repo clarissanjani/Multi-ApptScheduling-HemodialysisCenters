@@ -3,7 +3,7 @@ Advanced Seminar Operations & Supply Chain Management: Operations Research
 Chronic kidney disease (CKD) is a long-term (chronic) condition that affects the kidneys. The kidneys are two bean-shaped organs that are located below the ribcage. They filter waste products from the blood and help to regulate blood pressure, red blood cell production, and other important functions. When you have CKD, your kidneys gradually lose their ability to function properly. This can lead to a buildup of waste products in the blood, which can cause a variety of health such as fatigue, trouble sleeping, and shortness of breath.
 
 ## Project Details
-**Description**: As part of seminar course at Technical University of Munich, I have created a final report included in this Git repository, with the code accompanied. Further technical details of the project can be seen below. 
+**Description**: As part of seminar course at Technical University of Munich, I have created this Github repository. Further technical details of the project can be seen below. 
 
 ----
 
@@ -58,7 +58,7 @@ Document any known significant shortcomings with the software.
 
 ## Getting help
 
-Instruct users how to get help with this software; this might include links to an issue tracker, wiki, mailing list, etc.
+For any issues related to the software, please feel free to contact e.clarissa.anjani@tum.de
 
 ----
 
