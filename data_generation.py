@@ -53,7 +53,6 @@ def generate_prescribed_dialysis_hours(num_patients):
 
     return prescribed_dialysis_hours_list
 
-
 def generate_available_time_slots(num_slots_per_day, num_of_slots_per_hour):
     """
     Generate time slots based on the number of time slots per day
@@ -94,6 +93,7 @@ def generate_available_time_slots(num_slots_per_day, num_of_slots_per_hour):
     available_time_slot_list.append(int(str(end) + str("00")))
 
     return available_time_slot_list
+
 
 
 def create_empty_availability_dict(available_time_slot_list):

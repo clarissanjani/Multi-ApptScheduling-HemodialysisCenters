@@ -157,6 +157,7 @@ def remove_non_consecutive_schedules(patient_schedules_out_list, patient_schedul
 
     for entry in patient_schedules_in_list:
         schedule = entry['schedule']
+        # Sorts times within the schedule in ascending order.
         sorted_times = sorted(schedule.keys())
 
         # Find consecutive intervals
@@ -164,6 +165,7 @@ def remove_non_consecutive_schedules(patient_schedules_out_list, patient_schedul
         current_interval = []
 
         for time in sorted_times:
+            # Identifies consecutive intervals of time where the time difference between consecutive times is exactly 100 (which seems to represent a time slot duration).
             if not current_interval or time - current_interval[-1] == 100:
                 current_interval.append(time)
             else:
@@ -184,6 +186,7 @@ def remove_non_consecutive_schedules(patient_schedules_out_list, patient_schedul
             for time in first_interval:
                 modified_schedule['schedule'][time] = schedule[time]
 
+        # Once all patient schedules have been processed, the function returns the modified_list, which contains the patient schedules with non-consecutive intervals removed.
         modified_list.append(modified_schedule)
 
     return modified_list
@@ -310,14 +313,13 @@ def reserve_patient_beds_by_weight(copy_all_possible_patient_schedules, reordere
     return patient_schedules_out_list, patient_schedules_in_list
 
 
-def set_values_patient(multi_appt_patient_objects_list, multiappt_patient_schedules_in_list):
+def set_values_patient(multi_appt_patient_objects_list, best_neighbor):
     for obj in multi_appt_patient_objects_list:
         schedule_list = []
-        for patient_sched in multiappt_patient_schedules_in_list:
+        for patient_sched in best_neighbor:
             if obj.patient_id == patient_sched['patient']:
                 schedule_entry = {}
                 schedule_entry['bed'] = patient_sched['bed']
-                schedule_entry['day'] = patient_sched['day']
-                schedule_entry['schedule'] = patient_sched['schedule']
+                schedule_entry['schedule'] = patient_sched['possible_allocated_schedule']
                 schedule_list.append(schedule_entry)
                 obj.confirmed_schedule = schedule_list
