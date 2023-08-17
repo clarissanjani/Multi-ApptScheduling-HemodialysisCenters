@@ -116,9 +116,6 @@ def reserve_patient_beds(all_possible_patient_schedules, patient_schedules_in_li
                 
     return patient_schedules_out_list, patient_schedules_in_list
 
-
-
-
 def check_time_spacing(patient_schedules_out_list, patient_schedules_in_list, bed_objects_list):
     assigned_days = {}
 
@@ -199,7 +196,7 @@ def remove_occupied_beds(patient_schedules_out_list, patient_schedules_in_list, 
     # Create a copy of the patient_schedules_in_list to avoid modifying it during iteration
     patient_schedules_in_list_copy = patient_schedules_in_list.copy()
     
-    # shufflel ist
+    # shuffle list
     random.shuffle(patient_schedules_in_list_copy)
     
     for schedule in patient_schedules_in_list_copy:
@@ -317,6 +314,7 @@ def reserve_patient_beds_by_weight(copy_all_possible_patient_schedules, reordere
 
 def set_values_patient(multi_appt_patient_objects_list, best_neighbor):
     for obj in multi_appt_patient_objects_list:
+        print(obj.patient_id)
         schedule_list = []
         for patient_sched in best_neighbor:
             if obj.patient_id == patient_sched['patient']:
@@ -325,6 +323,23 @@ def set_values_patient(multi_appt_patient_objects_list, best_neighbor):
                 schedule_entry['schedule'] = patient_sched['possible_allocated_schedule']
                 schedule_list.append(schedule_entry)
                 obj.confirmed_schedule = schedule_list
+    
+    return multi_appt_patient_objects_list
+
+
+def SA_set_values_patient(multi_appt_patient_objects_list, best_neighbor):
+    for obj in multi_appt_patient_objects_list:
+        print(obj.patient_id)
+        schedule_list = []
+        for patient_sched in best_neighbor:
+            if obj.patient_id == patient_sched['patient']:
+                schedule_entry = {}
+                schedule_entry['bed'] = patient_sched['bed']
+                schedule_entry['schedule'] = patient_sched['schedule']
+                schedule_list.append(schedule_entry)
+                obj.confirmed_schedule = schedule_list
+    
+    return multi_appt_patient_objects_list
 
 
 def check_occupied_beds(patient_schedules_in_list, bed_objects_list):
@@ -355,3 +370,35 @@ def check_occupied_beds(patient_schedules_in_list, bed_objects_list):
                     for time_slot, value in patient_schedule_times.items():
                         if value != 0:  # Assuming non-zero value indicates the patient is scheduled
                             bed_day_schedule[time_slot] = patient_name
+
+
+def check_occupied_beds(patient_schedules_in_list, bed_objects_list):
+    """
+      Check that the beds that I marked as occupied are really occupied in the bed_objects_list
+
+      Args:
+        patient_schedules_in_list (list): list of patient objects
+        bed_objects_list (list): list of patient objects
+
+      Returns:
+        
+    """
+    # Given patient_schedule_list and bed_schedule_dict
+    for bed in bed_objects_list:
+        for patient_schedule in patient_schedules_in_list:
+            patient_day = patient_schedule['day']
+            patient_name = patient_schedule['patient']
+            patient_schedule_times = patient_schedule['schedule']
+            patient_bed = patient_schedule['bed']
+            print("THIS IS THE BED_ID", bed.bed_id)
+            if patient_day in bed.bed_schedule and bed.bed_id == patient_bed:
+                for time_slot, value in patient_schedule_times.items():
+                    if time_slot in bed.bed_schedule[patient_day]:
+                        # Check if the time slot is not occupied
+                        if bed.bed_schedule[patient_day][time_slot] == 0:
+                            bed.bed_schedule[patient_day][time_slot] = patient_name
+                            print("Bed", bed.bed_id, "Day", patient_day, "Time Slot", time_slot, "Assigned to", patient_name)
+                        else:
+                            print("Bed", bed.bed_id, "Day", patient_day, "Time Slot", time_slot, "Occupied by", bed.bed_schedule[patient_day][time_slot])
+                    else:
+                        print("Bed", bed.bed_id, "Day", patient_day, "Time Slot", time_slot, "Not in schedule")
