@@ -390,15 +390,11 @@ def check_occupied_beds(patient_schedules_in_list, bed_objects_list):
             patient_name = patient_schedule['patient']
             patient_schedule_times = patient_schedule['schedule']
             patient_bed = patient_schedule['bed']
-            print("THIS IS THE BED_ID", bed.bed_id)
+            # print("THIS IS THE BED_ID", bed.bed_id)
             if patient_day in bed.bed_schedule and bed.bed_id == patient_bed:
                 for time_slot, value in patient_schedule_times.items():
                     if time_slot in bed.bed_schedule[patient_day]:
                         # Check if the time slot is not occupied
                         if bed.bed_schedule[patient_day][time_slot] == 0:
                             bed.bed_schedule[patient_day][time_slot] = patient_name
-                            print("Bed", bed.bed_id, "Day", patient_day, "Time Slot", time_slot, "Assigned to", patient_name)
-                        else:
-                            print("Bed", bed.bed_id, "Day", patient_day, "Time Slot", time_slot, "Occupied by", bed.bed_schedule[patient_day][time_slot])
-                    else:
-                        print("Bed", bed.bed_id, "Day", patient_day, "Time Slot", time_slot, "Not in schedule")
+                            # print("Bed", bed.bed_id, "Day", patient_day, "Time Slot", time_slot, "Assigned to", patient_name)
