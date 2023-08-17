@@ -1,0 +1,13 @@
+,10-40-1,15-60-1
+Number of beds,10.0,15.0
+Number of patients,40.0,60.0
+Max allowed deivation,1.0,1.0
+Objective function,19609690.599999998,112944772.2
+Total confirmed slots,48.0,67.0
+Total confirmed hours,169.0,238.0
+Percentage leftover slots out of prescribed,0.6,0.6277777777777778
+Percentage confirmed hours out of prescribed,0.33137254901960783,0.33055555555555555
+Count 0,9.0,15.0
+Count 1,15.0,25.0
+Count 2,15.0,18.0
+Count 3,1.0,2.0
