@@ -3,6 +3,7 @@ def calculate_objective_function(patient_id, confirmed_schedule, weight, leftove
     # print(confirmed_schedule)
     # print("Weight is ", weight, " and the penalty is ", count_penalty(leftover), "the prescribed dialysis hours is ", prescribed_total_dialysis_hours)
     # print("The number of confirmed time slots is ", len(confirmed_schedule), " and the total confirmed hours is ", count_total_confirmed_hours(confirmed_schedule))
+
     first_term_result = get_first_term(weight, leftover, num_required_dialysis_sessions, num_patients, max_allowed_deviation)
     second_term_result, confirmed_total_dialysis_hours = get_second_term(weight, prescribed_total_dialysis_hours, confirmed_schedule, prescribed_total_dialysis_hours)
     
@@ -23,7 +24,7 @@ def calculate_objective_function(patient_id, confirmed_schedule, weight, leftove
         count_zero = 1
         
     # print("this is from  calculate_obj_function", obj_function_inc, num_confirmed_timeslots, count_one, count_two, count_three, count_zero)
-        
+    print("count_one, count_two, count_three, count_zero", count_one, count_two, count_three, count_zero)
     return obj_function_inc, num_confirmed_timeslots, count_one, count_two, count_three, count_zero, confirmed_total_dialysis_hours
 
 def get_first_term(weight, leftover, num_required_dialysis_sessions, num_patients, max_allowed_deviation):

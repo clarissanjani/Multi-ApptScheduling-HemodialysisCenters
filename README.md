@@ -62,9 +62,11 @@ parameter_tuning_df  = pd.DataFrame(columns=parameter_tuning_tbl_initial_rows)
 
 ----
 
+
+
 ## Known issues
 
-Document any known significant shortcomings with the software.
+- Not possible to have more than one slot per hour
 
 ## Getting help
 

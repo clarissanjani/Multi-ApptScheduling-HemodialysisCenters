@@ -122,6 +122,8 @@ def check_time_spacing(patient_schedules_out_list, patient_schedules_in_list, be
     patient_schedules_in_list_copy = patient_schedules_in_list.copy()
     
     for schedule in patient_schedules_in_list_copy:
+        print("this is the schedule from check time spacing")
+        print(schedule)
         patient = schedule['patient']
         bed = schedule['bed']
         day = schedule['day']
@@ -253,7 +255,7 @@ def reserve_patient_beds_by_weight(copy_all_possible_patient_schedules, reordere
       """
     for patient in reordered_patient_object_list:
         for patient_sched in copy_all_possible_patient_schedules:
-            # print(patient_sched)
+            print(patient_sched)
             # process the patients with the highest weight:
             if patient.patient_id == patient_sched['patient']:
                 patient_schedules_out_dict = {}
@@ -328,8 +330,9 @@ def set_values_patient(multi_appt_patient_objects_list, best_neighbor):
 
 
 def SA_set_values_patient(multi_appt_patient_objects_list, best_neighbor):
+    print("this is the multi_appt_patient_objects_list")
+    print(multi_appt_patient_objects_list)
     for obj in multi_appt_patient_objects_list:
-        print(obj.patient_id)
         schedule_list = []
         for patient_sched in best_neighbor:
             if obj.patient_id == patient_sched['patient']:
