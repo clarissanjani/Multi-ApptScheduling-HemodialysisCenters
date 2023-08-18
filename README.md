@@ -23,6 +23,7 @@ Each task has its own separate folder structure with the relevant JupyterLab / J
      ├── data_generation.py
      ├── matched_availability.py
      ├── schedule_appointment.py
+     ├── results folder
      └── .gitignore
 
 The description of the efiles are as follows
@@ -61,12 +62,7 @@ parameter_tuning_df  = pd.DataFrame(columns=parameter_tuning_tbl_initial_rows)
 ### Running the Simulated Annealing Approach
 1. Change the values of num_beds, num_patients, and max allowed deviation  (n,m,δ) 
 2. Run the code all the way to just before it reaches no 5
-3. In no 5, the graphs for further analysis can be generated. Make sure to follow the instructions on the part of the code that should be commented out which can be seen below. Only when the data is initially empty should the following code be active, and in other cases it should be commented out. 
-
-```
-parameter_tuning_df = []
-parameter_tuning_df  = pd.DataFrame(columns=parameter_tuning_tbl_initial_rows)
-```
+3. In no 6, the graphs for further analysis can be generated. Make sure to follow the instructions on the part of the code that should be commented out. Only when the data is initially empty should the following code be active, and in other cases it should be commented out. 
 4. Run step 6 until the end to see all the graphs that you were able to generate
 ----
 
@@ -75,6 +71,7 @@ parameter_tuning_df  = pd.DataFrame(columns=parameter_tuning_tbl_initial_rows)
 ## Known issues
 
 - Not possible to have more than one slot per hour
+- Bed occupancy management during feasibility checks could be an issue
 
 ## Getting help
 
