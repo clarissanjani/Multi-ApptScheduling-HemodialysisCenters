@@ -1,3 +1,9 @@
+   
+"""
+    Functions related to calculating the objective function
+"""
+
+
 def calculate_objective_function(patient_id, confirmed_schedule, weight, leftover, prescribed_total_dialysis_hours, num_required_dialysis_sessions, num_patients, max_allowed_deviation): 
     # print(patient_id)
     # print(confirmed_schedule)

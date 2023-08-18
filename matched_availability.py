@@ -1,4 +1,8 @@
 
+   
+"""
+    Functions related to matching the availability of the patient and the bed for scheduling appointments
+"""
 
 
 def match_bed_patient_availability(all_patients_availability_list, all_beds_availablity_list):

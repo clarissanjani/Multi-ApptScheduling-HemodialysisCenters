@@ -1,4 +1,9 @@
-## Instal packages
+   
+"""
+    Functions related to generating the data for further use in subsequent processing in the SA and FCFS approach
+"""
+
+## Import packages
 import random
 
 ## Declare some variables

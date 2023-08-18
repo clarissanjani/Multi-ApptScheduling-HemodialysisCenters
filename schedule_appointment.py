@@ -1,12 +1,53 @@
    
+"""
+    Functions related to scheduling the appointment and changing data structures to reflect the updated schedule
+"""
+
+
 import random
 
-# Example for testing
-# bed_id = "b1"
-# patient_day = 1
-# patient_schedule = {1: {1600:0,1700:0,1800:0}}
-# patient_id = "p1"
+def convert_possible_allocated_schedule(patient_schedules_in_list):
+    """
+      converts the dictionary that has the key "possible allocated schedule"
+      Args:
+        patient_schedules_in_list (list): A list of possible bed-patient assignments
+
+      Returns:
+        A reformatted dictionary 
+      """
+    converted_list = []
+    for entry in patient_schedules_in_list:
+        if 'possible_allocated_schedule' in entry:
+            patient = entry['patient']
+            bed = entry['bed']
+            possible_allocated_schedule = entry['possible_allocated_schedule']
+            
+            for day, schedule in possible_allocated_schedule.items():
+                converted_entry = {
+                    'patient': patient,
+                    'bed': bed,
+                    'day': day,
+                    'schedule': schedule
+                }
+                converted_list.append(converted_entry)
+        else:
+            converted_list.append(entry)
+    
+    return converted_list
+
 def change_bed_occupancy(bed_id, patient_schedule, patient_day, patient_id, bed_objects_list):
+    """
+      Changes the bed occupancy to the patient id
+      Args:
+        bed_id: id of the bed to be changed
+        patient_schedule: schedule of the patient to to define how the bed schedule should be changed
+        patient_day: the day in which is relevant for changing
+        patient_id: the patient that will be occupying the bed
+        bed_objects_list: list of bed objects
+
+      Returns:
+        
+      """
     # change the bed occupancy from available (meaning 0) to the patient id
     for bed in bed_objects_list:
         # print("this is the bed_id whose bed occupancy i will change to the patient id ", bed.bed_id)
@@ -21,6 +62,20 @@ def change_bed_occupancy(bed_id, patient_schedule, patient_day, patient_id, bed_
                 bed.bed_schedule[patient_day][time_p] = patient_id
 
 def free_up_bed_occupancy(bed_id, patient_schedule, patient_day, patient_id, bed_objects_list):
+    """
+      Frees up the bed occupancy when it is determined that the patient should not longer be on that bed 
+
+      Args:
+        bed_id: id of the bed to be changed
+        patient_schedule: schedule of the patient to to define how the bed schedule should be changed
+        patient_day: the day in which is relevant for changing
+        patient_id: the patient that will be occupying the bed
+        bed_objects_list: list of bed objects
+
+      Returns:
+        
+      """
+
     # change the bed occupancy from available (meaning 0) to the patient id
     for bed in bed_objects_list:
         # print("this is the bed_id whose bed occupancy i will free up", bed.bed_id)
@@ -34,11 +89,19 @@ def free_up_bed_occupancy(bed_id, patient_schedule, patient_day, patient_id, bed
                 # change from 0 to the patient_id
                 bed.bed_schedule[patient_day][time_p] = 0
 
-# requested_time_slot = {1600:0,1700:0,1800:0}}
-# requested_day = 1
-# requested_time = 1600
 
 def check_bed_availability(bed_id, requested_time_slot, requested_day, bed_objects_list):
+    """
+      Changes the bed occupancy to the patient id
+      Args:
+        bed_id: id of the bed to be changed
+        requested_time_slot: time slot that should be checked for the availability
+        requested_day: day in which should be checked for the availability
+        bed_objects_list: list of bed objects
+
+      Returns:
+        True or false
+      """
     availablility_counter = 0
     for bed in bed_objects_list:
         if bed.bed_id == bed_id:
@@ -54,6 +117,19 @@ def check_bed_availability(bed_id, requested_time_slot, requested_day, bed_objec
                 return False
 
 def reserve_patient_beds(all_possible_patient_schedules, patient_schedules_in_list, patient_schedules_out_list, bed_objects_list):
+    """
+      Reserve the patient beds based on the possible schedule on an FCFS basis and availability of the bed
+      Args:
+        all_possible_patient_schedules: all possible bed patient assignment schedules
+        patient_schedules_in_list: selected schedules that pass the below feasibility check
+        patient_schedules_out_list: rejected schedules that fail the below feasibility check
+        bed_objects_list: list of bed objects
+
+      Returns:
+        patient_schedules_in_list: selected schedules that pass the feasibility check
+        patient_schedules_out_list: rejected schedules that fail the feasibility check
+        
+    """
     # Example for testing
     # bed_id = "b1"
     # patient_day = 1
@@ -255,7 +331,6 @@ def reserve_patient_beds_by_weight(copy_all_possible_patient_schedules, reordere
       """
     for patient in reordered_patient_object_list:
         for patient_sched in copy_all_possible_patient_schedules:
-            print(patient_sched)
             # process the patients with the highest weight:
             if patient.patient_id == patient_sched['patient']:
                 patient_schedules_out_dict = {}
@@ -263,53 +338,40 @@ def reserve_patient_beds_by_weight(copy_all_possible_patient_schedules, reordere
                 days = list(patient_sched['possible_allocated_schedule'].keys())
                 # shuffle the days randomly
                 random.shuffle(days)
-                # print("this is the length ", len(patient_sched['possible_allocated_schedule']))
+                # Iterate over requested days
                 for requested_day in days:
-                    # print("this is the requested day ", requested_day)
-                    # print("this is patient_sched['possible_allocated_schedule'][requested_day]", patient_sched['possible_allocated_schedule'][requested_day])
-                    requested_sched = patient_sched['possible_allocated_schedule'][requested_day]
-                    # print(patient_sched['possible_allocated_schedule'])
+                    # Copy the requested schedule dictionary
+                    requested_sched = dict(patient_sched['possible_allocated_schedule'][requested_day])
                     bed_id = patient_sched['bed']
-                    #check_bed_availability(bed_id, requested_time_slot, requested_day)
-                    # print("first if statement ", bed_id, requested_sched, " day ", requested_day, " for patient ", patient_sched['patient'])
-                    if check_bed_availability(bed_id, requested_sched, requested_day, bed_objects_list) == True:
-                        # print("you passed the bed availablity test") 
-
-                        ## Add the patient's schedule to the patient_schedules_in_dict and list
+                    if check_bed_availability(bed_id, requested_sched, requested_day, bed_objects_list):
+                        # Add the patient's schedule to the patient_schedules_in_dict and list
                         patient_schedules_in_dict = {
                             'patient': patient_sched['patient'],
                             'bed': patient_sched['bed'],
                             'day': requested_day,
-                            'schedule': patient_sched['possible_allocated_schedule'][requested_day]
+                            'schedule': requested_sched
                         }
                         patient_schedules_in_list.append(patient_schedules_in_dict)
 
-                        #print(requested_sched)
+                        # Change bed occupancy and update patient_schedules_out_list
                         change_bed_occupancy(bed_id, requested_sched, requested_day, patient_sched['patient'], bed_objects_list)
-
-                        ## Remove the patient schedule from patient_schedules_out_list
                         if patient_schedules_in_dict in patient_schedules_out_list:
                             patient_schedules_out_list.remove(patient_schedules_in_dict)
-
                     else:
-                        # bed turns out is not available so add the patient's schedule to the patient_schedules_out_dict and list
+                        # Bed is not available
                         patient_schedules_out_dict = {
                             'patient': patient_sched['patient'],
                             'bed': patient_sched['bed'],
                             'day': requested_day,
-                            'schedule': patient_sched['possible_allocated_schedule'][requested_day]
+                            'schedule': requested_sched
                         }
-                        # if the schedule is not already in the out list, then add it to the out list
                         if patient_schedules_out_dict not in patient_schedules_out_list:
                             patient_schedules_out_list.append(patient_schedules_out_dict)
-                            # print("Unfortunately this ", patient_schedules_out_dict, " could not be added the bed is not available on", requested_day)
 
-                        # make sure to remove it from the patient_schedules_in_list
+                        # Remove it from the patient_schedules_in_list and free up the bed occupancy
                         if patient_schedules_out_dict in patient_schedules_in_list:
                             patient_schedules_in_list.remove(patient_schedules_out_dict)
-
-                        # make sure to free up the bed occupancy because it was previously in the in_list
-                        free_up_bed_occupancy(bed_id, requested_sched, requested_day, patient_sched['patient'], bed_objects_list)
+                            free_up_bed_occupancy(bed_id, requested_sched, requested_day, patient_sched['patient'], bed_objects_list)
                 
     return patient_schedules_out_list, patient_schedules_in_list
 
@@ -330,6 +392,16 @@ def set_values_patient(multi_appt_patient_objects_list, best_neighbor):
 
 
 def SA_set_values_patient(multi_appt_patient_objects_list, best_neighbor):
+    """
+      Change the values in the patient object list once solution quality is determined
+
+      Args:
+        multi_appt_patient_objects_list(list): list of patient objects
+        best_neighbor (list): list of neighbor patient objects that produce a good solution
+
+      Returns:
+        ulti_appt_patient_objects_list: updated values in the patient object list
+    """
     print("this is the multi_appt_patient_objects_list")
     print(multi_appt_patient_objects_list)
     for obj in multi_appt_patient_objects_list:
@@ -342,7 +414,7 @@ def SA_set_values_patient(multi_appt_patient_objects_list, best_neighbor):
                 schedule_list.append(schedule_entry)
                 obj.confirmed_schedule = schedule_list
     
-    return multi_appt_patient_objects_list
+    return ulti_appt_patient_objects_listm
 
 
 def check_occupied_beds(patient_schedules_in_list, bed_objects_list):
