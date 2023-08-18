@@ -59,7 +59,15 @@ parameter_tuning_df  = pd.DataFrame(columns=parameter_tuning_tbl_initial_rows)
 4. Run step 6 until the end to see all the graphs that you were able to generate
 
 ### Running the Simulated Annealing Approach
+1. Change the values of num_beds, num_patients, and max allowed deviation  (n,m,δ) 
+2. Run the code all the way to just before it reaches no 5
+3. In no 5, the graphs for further analysis can be generated. Make sure to follow the instructions on the part of the code that should be commented out which can be seen below. Only when the data is initially empty should the following code be active, and in other cases it should be commented out. 
 
+```
+parameter_tuning_df = []
+parameter_tuning_df  = pd.DataFrame(columns=parameter_tuning_tbl_initial_rows)
+```
+4. Run step 6 until the end to see all the graphs that you were able to generate
 ----
 
 
